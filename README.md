@@ -34,6 +34,11 @@ pip install flask uwsgi
 
 ## 📝 Paso 3: Crear archivos del proyecto
 
+```bash
+nano /var/www/myflaskapp/app.py
+nano /var/www/myflaskapp/wsgi.py
+```
+
 ### `app.py`
 ```python
 from flask import Flask, render_template
@@ -56,7 +61,10 @@ if __name__ == '__main__':
 
 ## 🧱 Paso 4: Crear carpetas estáticas y templates
 ```bash
-mkdir -p templates static/css static/js static/img
+sudo mkdir -p /var/www/myflaskapp/templates
+sudo mkdir -p /var/www/myflaskapp/static/css
+sudo mkdir -p /var/www/myflaskapp/static/js
+sudo mkdir -p /var/www/myflaskapp/static/img
 ```
 
 Ejemplo de `templates/index.html`:
@@ -72,6 +80,9 @@ Ejemplo de `templates/index.html`:
 
 ## 🔧 Paso 5: Configurar uWSGI como servicio
 
+```bash
+nano /var/www/myflaskapp/uwsgi.ini
+```
 ### Archivo `/var/www/myflaskapp/uwsgi.ini`
 ```ini
 [uwsgi]
@@ -83,7 +94,9 @@ chmod-socket = 660
 vacuum = true
 die-on-term = true
 ```
-
+```bash
+sudo nano /etc/systemd/system/uwsgi.service
+```
 ### Archivo `/etc/systemd/system/uwsgi.service`
 ```ini
 [Unit]
@@ -114,6 +127,11 @@ sudo systemctl status uwsgi
 ## 🌐 Paso 6: Configurar Nginx
 
 ### Archivo `/etc/nginx/sites-available/myflaskapp`
+
+```bash
+sudo nano /etc/nginx/sites-available/myflaskapp
+```
+
 ```nginx
 server {
     listen 80;
@@ -136,7 +154,12 @@ sudo ln -s /etc/nginx/sites-available/myflaskapp /etc/nginx/sites-enabled/
 sudo nginx -t
 sudo systemctl restart nginx
 ```
+## Paso 6.1: Verificar estado y solucionar errores comunes
 
+```bash
+systemctl status nginx
+systemctl status uwsgi
+```
 ---
 
 ## 🌍 Paso 7: Configurar dominio con Hostinger y Cloudflare
@@ -149,11 +172,11 @@ sudo systemctl restart nginx
    arch.ns.cloudflare.com
    jocelyn.ns.cloudflare.com
    ```
-4. Espera la propagación DNS (puede tardar horas).
+4. Espera la propagación DNS (puede tardar horas). Te llegara un correo notificando cunado este listo.
 
 ### En Cloudflare:
-1. Crea un nuevo sitio con tu dominio.
-2. En la sección DNS, agrega un registro tipo **CNAME**:
+1. Registrate opta por el plan gratuito.
+2. En la sección DNS, agrega un registro (record) tipo **CNAME**:
    | Tipo | Nombre | Objetivo | Proxy |
    |------|--------|----------|--------|
    | CNAME | www o tu.dominio.com | xxxxx.cfargotunnel.com | Proxied |
@@ -168,13 +191,17 @@ wget -O cloudflared.deb https://github.com/cloudflare/cloudflared/releases/lates
 sudo dpkg -i cloudflared.deb
 ```
 
-### Crear túnel:
+### Crear túnel: Tendras que iniciar sesion (se despliega una ventana de incio)
 ```bash
 cloudflared tunnel login
 cloudflared tunnel create TunnelNetwork
 ```
 
 ### Configurar archivo `/etc/cloudflared/config.yml`
+
+```bash
+sudo nano /etc/cloudflared/config.yml
+```
 ```yaml
 tunnel: TunnelNetwork
 credentials-file: /etc/cloudflared/<TUNNEL_ID>.json
