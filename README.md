@@ -1,4 +1,3 @@
-# UbuntuServer20_04
 # 🖥️ Servidor Flask con uWSGI, Nginx, dominio Hostinger y túnel Cloudflare
 
 Este README documenta paso a paso cómo desplegar una aplicación web con **Flask**, **uWSGI**, **Nginx**, un dominio comprado en **Hostinger**, y protegida mediante un túnel seguro de **Cloudflare Tunnel**.
