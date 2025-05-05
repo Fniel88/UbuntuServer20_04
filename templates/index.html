@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Tipos de Enrutamiento</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Tipos de Enrutamiento</h1>
+        <nav>
+            <ul>
+                <li><a href="#" onclick="mostrarSeccion('estatico')">Estático</a></li>
+                <li><a href="#" onclick="mostrarSeccion('dinamico')">Dinámico</a></li>
+                <li><a href="#" onclick="mostrarSeccion('predeterminado')">Predeterminado</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="estatico" class="seccion">
+            <h2>Enrutamiento Estático</h2>
+            <div class="card">
+                <p>Es configurado manualmente por el administrador de red. Es útil en redes pequeñas.</p>
+                <ul>
+                    <li>✔ Más seguro</li>
+                    <li>❌ Poco flexible</li>
+                    <li>Ejemplo: `ip route add 192.168.1.0/24 via 10.0.0.1`</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="dinamico" class="seccion oculto">
+            <h2>Enrutamiento Dinámico</h2>
+            <div class="card">
+                <p>El router aprende las rutas automáticamente usando protocolos como RIP, OSPF o BGP.</p>
+                <ul>
+                    <li>✔ Adaptativo</li>
+                    <li>❌ Más complejo</li>
+                    <li>Protocolos comunes: RIP, OSPF, BGP</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="predeterminado" class="seccion oculto">
+            <h2>Enrutamiento Predeterminado</h2>
+            <div class="card">
+                <p>Se usa cuando no se conoce una ruta específica. Es el "camino por defecto".</p>
+                <ul>
+                    <li>✔ Simplicidad</li>
+                    <li>❌ Puede saturarse</li>
+                    <li>Ejemplo: `ip route add default via 192.168.0.1`</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 - Panel Educativo de Enrutamiento</p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
